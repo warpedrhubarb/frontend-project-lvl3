@@ -2,6 +2,7 @@ env:
   node: true
   es2021: true
   jest: true
+  browser: true
 extends:
   - airbnb-base
 parserOptions:
