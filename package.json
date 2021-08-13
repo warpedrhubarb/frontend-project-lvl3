@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "description": "RSS Reader",
   "scripts": {
-    "build": "webpack-dev-server -d --hot --config webpack.config.cjs --watch",
+    "start": "webpack-dev-server -d --hot --config webpack.config.cjs --watch",
     "test": "npx node --experimental-vm-modules node_modules/.bin/jest --bail",
     "testWatch": "npx jest --watch --bail"
   },
