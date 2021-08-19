@@ -1,14 +1,26 @@
+develop:
+	npx webpack serve
+
 install:
 	npm install
 
 publish:
 	npm publish --dry-run
 
-lint:
-	npx eslint .
+build:
+	rm -rf dist
+	NODE_ENV=production npx webpack
 
 test:
-	npx node --experimental-vm-modules node_modules/.bin/jest
+	npm test
+
+test-watch:
+	npm run test:watch
 
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
+
+lint:
+	npx eslint .
+
+.PHONY: test
