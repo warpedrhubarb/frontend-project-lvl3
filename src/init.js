@@ -8,14 +8,15 @@ import initView from './core/view.js';
 import initController from './core/controller.js';
 
 export default () => {
-  const i18Instance = i18next.createInstance();
+  const i18nInstance = i18next.createInstance();
+  const defaultLanguage = 'ru';
 
-  i18Instance.init({
-    lng: 'en',
+  i18nInstance.init({
+    lng: defaultLanguage,
     resources,
   }).then(() => {
-    const model = initModel();
-    const watchedState = initView(model, i18Instance);
+    const model = initModel(defaultLanguage);
+    const watchedState = initView(model, i18nInstance);
     initController(model, watchedState);
   });
-}
+};

@@ -3,73 +3,59 @@ import onChange from 'on-change';
 export default ({
   state,
   elements: {
-    form,
-    urlInput,
+    fieldElements,
+    linkError,
     submitButton,
-    processStatusMsg,
+    feedbackContainer,
+    errorContainer,
+    successMsgContainer,
   },
-}, i18nextInstance) => {
-  const renderStatusMsg = (status) => {
-    switch (status) {
-      case 'loading':
-        processStatusMsg.classList.remove('text-danger');
-        processStatusMsg.classList.add('text-success');
-        urlInput.classList.remove('is-invalid');
-        processStatusMsg.textContent = i18nextInstance.t('statusMessages.loading');
-        break;
-      case 'invalidUrl':
-      case 'notEmptyString':
-      case 'hasUrlYet':
-      case 'notRss':
-      case 'network':
-        processStatusMsg.classList.remove('text-success');
-        processStatusMsg.classList.add('text-danger');
-        urlInput.classList.add('is-invalid');
-        processStatusMsg.textContent = i18nextInstance.t(`statusMessages.${status}`);
-        break;
-      case 'filling':
-        processStatusMsg.textContent = '';
-        break;
-      case 'loaded':
-        processStatusMsg.classList.remove('text-danger');
-        processStatusMsg.classList.add('text-success');
-        urlInput.classList.remove('is-invalid');
-        processStatusMsg.textContent = i18nextInstance.t('statusMessages.loaded');
-        break;
-      default:
-        processStatusMsg.classList.remove('text-success');
-        processStatusMsg.classList.add('text-danger');
-        urlInput.classList.add('is-invalid');
-        processStatusMsg.textContent = i18nextInstance.t(`statusMessages.${status}`);
+}, i18nInstance) => {
+  const renderError = (error) => {
+    const linkEl = fieldElements.link;
+    linkEl.classList.remove('is-invalid');
+    linkError.textContent = '';
+    if (!error) {
+      return;
     }
+    linkError.textContent = i18nInstance.t(error.message.key);
+    linkEl.classList.add('is-invalid');
   };
+
+  const renderProcessError = (text) => {
+    errorContainer.textContent = text;
+  };
+
+  const renderSuccessMessage = (text) => {
+    successMsgContainer.textContent = text;
+  };
+
 
   const processStateHandler = (processState) => {
     switch (processState) {
-      case 'network':
+      case 'failedNetwork':
         submitButton.disabled = false;
-        urlInput.readOnly = false;
-        renderStatusMsg(processState);
+        fieldElements.link.readOnly = false;
+        renderProcessError(i18nInstance.t('networkProblems'));
         break;
       case 'failed':
         submitButton.disabled = false;
-        urlInput.readOnly = false;
-        renderStatusMsg('invalidUrl');
+        fieldElements.link.readOnly = false;
+        renderProcessError(i18nInstance.t('invalidRSS'));
         break;
       case 'filling':
         submitButton.disabled = false;
-        urlInput.readOnly = false;
+        fieldElements.link.readOnly = false;
         break;
-      case 'loading':
+      case 'sending':
         submitButton.disabled = true;
-        urlInput.readOnly = true;
-        renderStatusMsg(processState);
+        fieldElements.link.readOnly = true;
         break;
-      case 'loaded':
+      case 'finished':
         submitButton.disabled = false;
-        urlInput.readOnly = false;
-        urlInput.value = null;
-        renderStatusMsg(processState);
+        fieldElements.link.readOnly = false;
+        fieldElements.link.value = null;
+        renderSuccessMessage(i18nInstance.t('successRSSLoad'));
         break;
       default:
         throw new Error(`Unknown state: ${processState}`);
@@ -79,25 +65,16 @@ export default ({
   return onChange(state, (path, value) => {
     switch (path) {
       case 'form.processState':
-        renderStatusMsg(null);
+        renderProcessError(null);
+        renderSuccessMessage(null);
         processStateHandler(value);
         break;
       case 'form.valid':
         submitButton.disabled = !value;
         break;
       case 'form.error':
-        renderStatusMsg(value);
+        renderError(value);
         break;
-      // case 'feeds':
-      //   renderFeeds(value);
-      //   break;
-      // case 'posts':
-      // case 'readPosts':
-      //   renderPosts();
-      //   break;
-      // case 'modalItem':
-      //   renderModal(value);
-      //   break;
       default:
         break;
     }

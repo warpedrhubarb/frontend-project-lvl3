@@ -1,13 +1,13 @@
-export default () => {
-  const form = document.querySelector('form');
-  const urlInput = form.querySelector('[name="url"]');
+export default (defaultLanguage) => {
+  const form = document.querySelector('[data-form="add-rss"]');
+  const fieldElements = {
+    link: form.querySelector('[name="url"]'),
+  };
+  const linkError = document.querySelector('[data-role="link-error"]');
   const submitButton = form.querySelector('button');
-  const processStatusMsg = document.querySelector('#feedback');
-  // const feedsContainer = document.querySelector('#feeds');
-  // const postsContainer = document.querySelector('#posts');
-  // const modalBody = document.querySelector('[data-role="modal-body"]');
-  // const modalTitle = document.querySelector('[data-role="modal-title"]');
-  // const modalLink = document.querySelector('[data-role="modal-link"]');
+  const feedbackContainer = document.querySelector('#feedback');
+  const errorContainer = document.querySelector('[data-role="process-error"]');
+  const successMsgContainer = document.querySelector('[data-role="process-success"]');
 
   return {
     state: {
@@ -15,23 +15,20 @@ export default () => {
         processState: 'filling',
         error: null,
         valid: true,
-        urlInput: null,
+        fields: {
+          link: null,
+        },
       },
       feeds: [],
-      // posts: [],
-      // readPosts: {},
-      // modalItem: null,
     },
     elements: {
       form,
-      urlInput,
+      fieldElements,
+      linkError,
       submitButton,
-      processStatusMsg,
-      // feedsContainer,
-      // postsContainer,
-      // modalBody,
-      // modalTitle,
-      // modalLink,
+      feedbackContainer,
+      errorContainer,
+      successMsgContainer,
     },
   };
 };
