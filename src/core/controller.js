@@ -1,6 +1,12 @@
 import * as yup from 'yup';
-import callAPI from '../utils/api';
+import axios from 'axios';
+import {
+  uniqueId,
+} from 'lodash';
+import parseRSS from '../utils/rssParser';
 import yupLocale from '../locales/yup.js';
+
+const callAPI = (url) => axios.get('https://api.allorigins.win/get', { params: { url } });
 
 const validate = (link, schema) => {
   try {
@@ -16,9 +22,26 @@ const updateValidationState = (watchedState, baseLinkSchema) => {
     watchedState.feeds.map(({ link }) => link),
   );
 
-  const error = validate(watchedState.form.fields.link, linkSchema);
+  const error = validate(watchedState.form.inputField, linkSchema);
   watchedState.form.valid = !error;
   watchedState.form.error = watchedState.form.valid ? null : error;
+};
+
+const processRSSContent = (data, watchedState) => {
+  const { title, description, items } = parseRSS(data);
+  const link = watchedState.form.inputField;
+  const feedId = uniqueId();
+  watchedState.feeds = [{
+    link,
+    title,
+    description,
+    feedId,
+  }, ...watchedState.feeds];
+
+  watchedState.posts = [
+    ...items.map((item) => ({ ...item, id: uniqueId(), feedId })),
+    ...watchedState.posts,
+  ];
 };
 
 export default ({
@@ -31,31 +54,28 @@ export default ({
   yup.setLocale(yupLocale);
   const baseLinkSchema = yup.string().url().required();
 
-  Object.entries(fieldElements).forEach(([name, element]) => {
-    element.addEventListener('input', (e) => {
-      watchedState.form.fields[name] = e.target.value;
-
-      updateValidationState(watchedState, baseLinkSchema);
-    });
+  fieldElements.link.addEventListener('input', (e) => {
+    watchedState.form.inputField = e.target.value;
+    updateValidationState(watchedState, baseLinkSchema);
   });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const feedsArr = watchedState.feeds.map(({ link }) => link);
-    if (feedsArr.indexOf(watchedState.form.fields.link) !== -1) {
+    if (feedsArr.indexOf(watchedState.form.inputField) !== -1) {
       watchedState.form.processState = '';
       submitButton.disabled = true;
       return;
     }
     watchedState.form.processState = 'sending';
 
-    callAPI(watchedState.form.fields.link).then((res) => {
+    callAPI(watchedState.form.inputField).then((response) => {
       try {
-      } catch (err) {
+        processRSSContent(response.data.contents, watchedState);
+      } catch (error) {
         watchedState.form.processState = 'failed';
         return;
       }
-
       watchedState.form.processState = 'finished';
     }).catch(() => {
       watchedState.form.processState = 'failedNetwork';

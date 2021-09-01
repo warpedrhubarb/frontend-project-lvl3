@@ -20,7 +20,7 @@ export default {
     invalidRSS: 'Ресурс не содержит валидный RSS',
     successRSSLoad: 'RSS успешно загружен',
     RSSExists: 'RSS уже существует',
-    invalidUrl: 'Ссылка должна быть валидным URL',
+    invalidURL: 'Ссылка должна быть валидным URL',
     required: 'Не должно быть пустым',
   },
 };

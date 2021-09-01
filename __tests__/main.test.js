@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/dom';
 import testingLibraryUserEvent from '@testing-library/user-event';
-import fs from "fs";
+import fs from 'fs';
 
 import runApp from '../src/core/controller.js';
 
