@@ -67,12 +67,12 @@ const updateFeeds = (watchedState) => {
 };
 
 export default ({
-                  elements: {
-                    fieldElements,
-                    form,
-                    submitButton,
-                  },
-                }, watchedState) => {
+  elements: {
+    fieldElements,
+    form,
+    submitButton,
+  },
+}, watchedState) => {
   yup.setLocale(yupLocale);
   const baseLinkSchema = yup.string().url().required();
 
