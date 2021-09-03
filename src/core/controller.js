@@ -2,11 +2,12 @@ import * as yup from 'yup';
 import axios from 'axios';
 import {
   uniqueId,
+  differenceWith,
 } from 'lodash';
 import parseRSS from '../utils/rssParser';
 import yupLocale from '../locales/yup.js';
 
-const callAPI = (url) => axios.get('https://api.allorigins.win/get', { params: { url } });
+const callAPI = (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
 
 const validate = (link, schema) => {
   try {
@@ -44,13 +45,34 @@ const processRSSContent = (data, watchedState) => {
   ];
 };
 
+const updateFeeds = (watchedState) => {
+  const timeout = 5000;
+  const promises = watchedState.feeds.map(({ link }) => callAPI(link)
+    .then((response) => {
+      const newPosts = parseRSS(response.data.contents).items;
+      const currentPosts = watchedState.posts;
+      const diffPosts = differenceWith(newPosts, currentPosts, (a, b) => a.title === b.title);
+
+      if (diffPosts.length) {
+        watchedState.posts = [
+          ...diffPosts,
+          ...watchedState.posts,
+        ];
+      }
+    }).catch((e) => console.log(e)));
+
+  Promise.all(promises).finally(() => {
+    setTimeout(() => updateFeeds(watchedState), timeout);
+  });
+};
+
 export default ({
-  elements: {
-    fieldElements,
-    form,
-    submitButton,
-  },
-}, watchedState) => {
+                  elements: {
+                    fieldElements,
+                    form,
+                    submitButton,
+                  },
+                }, watchedState) => {
   yup.setLocale(yupLocale);
   const baseLinkSchema = yup.string().url().required();
 
@@ -77,6 +99,7 @@ export default ({
         return;
       }
       watchedState.form.processState = 'finished';
+      updateFeeds(watchedState);
     }).catch(() => {
       watchedState.form.processState = 'failedNetwork';
     });
