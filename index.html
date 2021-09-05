@@ -6,17 +6,17 @@
   <title>RSS Reader</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
-  <div class="modal-dialog" role="document" data-role="modalDialog">
+<div class="modal fade" id="modal" role="dialog" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" data-role="modal-title"></h5>
-        <button type="button" class="btn-close close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="modal-title" data-role="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body" data-role="modal-body"></div>
       <div class="modal-footer">
-        <a class="btn btn-primary full-article" href="#" data-role="modal-link" role="button" target="_blank" rel="noopener noreferrer">Читать полностью</a>
+        <a class="btn btn-primary" href="#" data-role="modal-link" role="button" target="_blank" rel="noopener noreferrer">Читать полностью</a>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-role="modal-dismiss">Закрыть</button>
       </div>
     </div>
@@ -30,12 +30,12 @@
       <div class="col-md-10 col-lg-8 mx-auto text-white">
         <h1 class="display-3 mb-0">RSS агрегатор</h1>
         <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
-        <form action="" class="rss-form text-body" role="form" data-form="add-rss">
+        <form class="rss-form text-body" role="form" data-form="add-rss">
           <div class="row">
             <div class="col">
               <div class="form-floating">
-                <input data-testid="input" aria-label="url" type="text" name="url" id="urlInput" autofocus required class="form-control w-100" autocomplete="off" placeholder="RSS">
-                <label for="urlInput">Ссылка RSS</label>
+                <input data-testid="input" aria-label="url" type="text" name="url" id="url-input" autofocus required class="form-control w-100" autocomplete="off" placeholder="RSS">
+                <label for="url-input">Ссылка RSS</label>
               </div>
             </div>
             <div class="col-auto">

@@ -21,8 +21,12 @@ export default ({
     successMsgContainer,
     feedsContainer,
     postsContainer,
+    modalBody,
+    modalTitle,
+    modalLink,
   },
 }, i18nInstance) => {
+
   const renderError = (error) => {
     const linkEl = fieldElements.link;
     linkEl.classList.remove('is-invalid');
@@ -39,7 +43,7 @@ export default ({
     const card = createElement('card.border-0');
     const cardBody = createElement('div.card-body');
 
-    const cardTitle = createElement('h2.card-title.h4', i18nInstance.t('elements.feeds'), { 'data-role': 'feedsTitle' });
+    const cardTitle = createElement('h2.card-title.h4', i18nInstance.t('elements.feeds'), { 'data-role': 'feeds-heading' });
     const feedsInfoList = createElement('ul.list-group.border-0.rounded-0');
     feeds.forEach(({ title, description }) => {
       const listItem = createElement('li.list-group-item.border-0.border-end-0');
@@ -58,26 +62,34 @@ export default ({
 
   const renderPosts = () => {
     postsContainer.innerHTML = null;
-    const { posts } = state;
+    const { posts, readPosts } = state;
 
     const card = createElement('card.border-0');
     const cardBody = createElement('div.card-body');
 
-    const cardTitle = createElement('h2.card-title.h4', i18nInstance.t('elements.posts'), { 'data-role': 'postsTitle' });
+    const cardTitle = createElement('h2.card-title.h4', i18nInstance.t('elements.posts'), { 'data-role': 'posts-heading' });
     const postsList = createElement('ul.list-group.border-0.rounded-0');
 
     posts.forEach(({ id, title, link }) => {
       const listItem = createElement('li.list-group-item.d-flex.justify-content-between.align-items-start.border-0.border-end-0');
-      const postTitle = createElement('a', title, { href: link, target: '_blank', rel: 'noopener noreferrer' });
-      const button = createElement('button.btn.btn-outline-primary.btn-sm', i18nInstance.t('elements.preview'), {
+      const postTitleFont = readPosts[id] ? '.fw-normal' : '.fw-bold';
+      const postTitle = createElement(`a${postTitleFont}`, title, {
+        href: link,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        'data-role': 'link',
+        'data-id': id,
+      });
+
+      const previewBtn = createElement('button.btn.btn-outline-primary.btn-sm', i18nInstance.t('elements.previewBtn'), {
         'data-bs-toggle': 'modal',
         'data-bs-target': '#modal',
         'data-id': id,
-        'data-role': 'preview',
+        'data-role': 'previewBtn',
       });
 
       listItem.appendChild(postTitle);
-      listItem.appendChild(button);
+      listItem.appendChild(previewBtn);
       postsList.appendChild(listItem);
     });
 
@@ -93,6 +105,12 @@ export default ({
 
   const renderSuccessMessage = (text) => {
     successMsgContainer.textContent = text;
+  };
+
+  const renderModal = ({ description, title, link } = {}) => {
+    modalTitle.textContent = title;
+    modalBody.textContent = description;
+    modalLink.setAttribute('href', link);
   };
 
   const processStateHandler = (processState) => {
@@ -143,7 +161,11 @@ export default ({
         renderFeeds(value);
         break;
       case 'posts':
+      case 'readPosts':
         renderPosts();
+        break;
+      case 'modalItem':
+        renderModal(value);
         break;
       default:
         break;

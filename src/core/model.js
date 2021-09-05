@@ -9,6 +9,10 @@ export default () => {
   const successMsgContainer = document.querySelector('[data-role="process-success"]');
   const feedsContainer = document.querySelector('[data-role="feeds"]');
   const postsContainer = document.querySelector('[data-role="posts"]');
+  const modalBody = document.querySelector('[data-role="modal-body"]');
+  const modalTitle = document.querySelector('[data-role="modal-title"]');
+  const modalLink = document.querySelector('[data-role="modal-link"]');
+
   return {
     state: {
       form: {
@@ -19,6 +23,8 @@ export default () => {
       },
       feeds: [],
       posts: [],
+      readPosts: {},
+      modalItem: null,
     },
     elements: {
       form,
@@ -29,6 +35,9 @@ export default () => {
       successMsgContainer,
       feedsContainer,
       postsContainer,
+      modalBody,
+      modalTitle,
+      modalLink,
     },
   };
 };

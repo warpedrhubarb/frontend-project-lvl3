@@ -10,7 +10,7 @@ export default {
       inputPlaceholder: 'Ссылка RSS',
       submitButton: 'Добавить',
       example: 'Пример: https://ru.hexlet.io/lessons.rss',
-      preview: 'Просмотр',
+      previewBtn: 'Просмотр',
       feeds: 'Фиды',
       posts: 'Посты',
       modalLink: 'Читать полностью',

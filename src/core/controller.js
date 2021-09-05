@@ -71,6 +71,7 @@ export default ({
     fieldElements,
     form,
     submitButton,
+    postsContainer,
   },
 }, watchedState) => {
   yup.setLocale(yupLocale);
@@ -103,5 +104,28 @@ export default ({
     }).catch(() => {
       watchedState.form.processState = 'failedNetwork';
     });
+  });
+
+  postsContainer.addEventListener('click', (e) => {
+    const { id, bsToggle, role } = e.target.dataset;
+
+    if (role === 'link') {
+      watchedState.readPosts = {
+        ...watchedState.readPosts,
+        [id]: true,
+      };
+    }
+
+    if (bsToggle !== 'modal') return;
+
+    const currentPost = watchedState.posts.find(({ id: postId }) => postId === id);
+    if (!currentPost) return;
+
+    watchedState.modalItem = currentPost;
+
+    watchedState.readPosts = {
+      ...watchedState.readPosts,
+      [id]: true,
+    };
   });
 };

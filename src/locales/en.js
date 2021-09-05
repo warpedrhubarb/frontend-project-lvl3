@@ -10,7 +10,7 @@ export default {
       inputPlaceholder: 'RSS Link',
       submitButton: 'Add',
       example: 'Example: https://ru.hexlet.io/lessons.rss',
-      preview: 'Preview',
+      previewBtn: 'Preview',
       feeds: 'Feeds',
       posts: 'Posts',
       modalLink: 'Full article',
