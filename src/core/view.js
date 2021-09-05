@@ -26,7 +26,6 @@ export default ({
     modalLink,
   },
 }, i18nInstance) => {
-
   const renderError = (error) => {
     const linkEl = fieldElements.link;
     linkEl.classList.remove('is-invalid');
