@@ -9,7 +9,7 @@ import initController from './core/controller.js';
 
 export default () => {
   const i18nInstance = i18next.createInstance();
-  const defaultLanguage = 'ru';
+  const defaultLanguage = 'en';
 
   i18nInstance.init({
     lng: defaultLanguage,

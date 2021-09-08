@@ -9,6 +9,11 @@ import yupLocale from '../locales/yup.js';
 
 const callAPI = (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
 
+const handleSwitchLanguage = (watchedState) => (e) => {
+  const { lng } = e.target.dataset;
+  watchedState.lng = lng;
+};
+
 const validate = (link, schema) => {
   try {
     schema.validateSync(link);
@@ -68,6 +73,7 @@ const updateFeeds = (watchedState) => {
 
 export default ({
   elements: {
+    lngButtons,
     fieldElements,
     form,
     submitButton,
@@ -76,6 +82,10 @@ export default ({
 }, watchedState) => {
   yup.setLocale(yupLocale);
   const baseLinkSchema = yup.string().url().required();
+
+  lngButtons.forEach((lngBtn) => {
+    lngBtn.addEventListener('click', handleSwitchLanguage(watchedState));
+  });
 
   fieldElements.link.addEventListener('input', (e) => {
     watchedState.form.inputField = e.target.value;

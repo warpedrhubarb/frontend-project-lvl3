@@ -21,11 +21,51 @@ export default ({
     successMsgContainer,
     feedsContainer,
     postsContainer,
+    previewButtons,
+    postsHeading,
+    feedsHeading,
     modalBody,
     modalTitle,
     modalLink,
+    modalDismiss,
+    appTitle,
+    subtitle,
+    inputPlaceholder,
+    example,
   },
 }, i18nInstance) => {
+  const renderLng = () => {
+    appTitle.textContent = i18nInstance.t('elements.title');
+    subtitle.textContent = i18nInstance.t('elements.subtitle');
+    submitButton.textContent = i18nInstance.t('elements.submitButton');
+    inputPlaceholder.textContent = i18nInstance.t('elements.inputPlaceholder');
+    example.textContent = i18nInstance.t('elements.example');
+
+    // For full-size language buttons to be functional (switching styles):
+    // lngButtons.forEach((lngBtn) => {
+    //   const { lng } = lngBtn.dataset;
+    //
+    //   const classNameToAdd = language === lng ? 'btn-primary' : 'btn-outline-primary';
+    //   const classNameToRemove = language === lng ? 'btn-outline-primary' : 'btn-primary';
+    //   lngBtn.classList.remove(classNameToRemove);
+    //   lngBtn.classList.add(classNameToAdd);
+    // });
+
+    previewButtons.forEach((previewBtn) => {
+      previewBtn.textContent = i18nInstance.t('elements.previewBtn');
+    });
+
+    if (postsHeading) {
+      postsHeading.textContent = i18nInstance.t('elements.posts');
+    }
+    if (feedsHeading) {
+      feedsHeading.textContent = i18nInstance.t('elements.feeds');
+    }
+
+    modalLink.textContent = i18nInstance.t('elements.modalLink');
+    modalDismiss.textContent = i18nInstance.t('elements.modalDismiss');
+  };
+
   const renderError = (error) => {
     const linkEl = fieldElements.link;
     linkEl.classList.remove('is-invalid');
@@ -165,6 +205,11 @@ export default ({
         break;
       case 'modalItem':
         renderModal(value);
+        break;
+      case 'lng':
+        i18nInstance.changeLanguage(`${value}`).then(() => renderLng(value));
+        processStateHandler(state.form.processState);
+        renderError(state.form.error);
         break;
       default:
         break;
