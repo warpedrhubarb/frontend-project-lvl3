@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/warpedrhubarb/frontend-project-lvl3.git"
+    "url": "git+https://github.com/warpedrhubarb/rss-reader.git"
   },
   "author": "warpedrhubarb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/warpedrhubarb/frontend-project-lvl3/issues"
+    "url": "https://github.com/warpedrhubarb/rss-reader/issues"
   },
-  "homepage": "https://github.com/warpedrhubarb/frontend-project-lvl3#readme",
+  "homepage": "https://github.com/warpedrhubarb/rss-reader#readme",
   "jest": {
     "testEnvironment": "jsdom"
   },

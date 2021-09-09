@@ -4,10 +4,8 @@ export default (defaultLanguage) => {
   const fieldElements = {
     link: form.querySelector('[name="url"]'),
   };
-  const linkError = document.querySelector('[data-role="link-error"]');
+  const statusMsg = document.querySelector('[data-role="status-msg"]');
   const submitButton = form.querySelector('button');
-  const errorContainer = document.querySelector('[data-role="process-error"]');
-  const successMsgContainer = document.querySelector('[data-role="process-success"]');
   const feedsContainer = document.querySelector('[data-role="feeds"]');
   const postsContainer = document.querySelector('[data-role="posts"]');
   const previewButtons = document.querySelectorAll('[data-role="previewBtn"]');
@@ -40,10 +38,8 @@ export default (defaultLanguage) => {
       form,
       lngButtons,
       fieldElements,
-      linkError,
+      statusMsg,
       submitButton,
-      errorContainer,
-      successMsgContainer,
       feedsContainer,
       postsContainer,
       previewButtons,

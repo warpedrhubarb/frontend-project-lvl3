@@ -4,3 +4,4 @@ dist
 assets
 coverage
 .idea
+/__tests__/

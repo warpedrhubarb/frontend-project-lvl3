@@ -15,10 +15,8 @@ export default ({
   state,
   elements: {
     fieldElements,
-    linkError,
+    statusMsg,
     submitButton,
-    errorContainer,
-    successMsgContainer,
     feedsContainer,
     postsContainer,
     previewButtons,
@@ -66,15 +64,15 @@ export default ({
     modalDismiss.textContent = i18nInstance.t('elements.modalDismiss');
   };
 
-  const renderError = (error) => {
-    const linkEl = fieldElements.link;
-    linkEl.classList.remove('is-invalid');
-    linkError.textContent = '';
+  const renderStatusMsg = (error) => {
+    const linkElement = fieldElements.link;
+    linkElement.classList.remove('is-invalid');
+    statusMsg.textContent = '';
     if (!error) {
       return;
     }
-    linkError.textContent = i18nInstance.t(error.message.key);
-    linkEl.classList.add('is-invalid');
+    statusMsg.textContent = i18nInstance.t(error.message.key);
+    linkElement.classList.add('is-invalid');
   };
 
   const renderFeeds = (feeds) => {
@@ -138,14 +136,6 @@ export default ({
     postsContainer.appendChild(card);
   };
 
-  const renderProcessError = (text) => {
-    errorContainer.textContent = text;
-  };
-
-  const renderSuccessMessage = (text) => {
-    successMsgContainer.textContent = text;
-  };
-
   const renderModal = ({ description, title, link } = {}) => {
     modalTitle.textContent = title;
     modalBody.textContent = description;
@@ -157,12 +147,12 @@ export default ({
       case 'failedNetwork':
         submitButton.disabled = false;
         fieldElements.link.readOnly = false;
-        renderProcessError(i18nInstance.t('networkProblems'));
+        statusMsg.textContent = (i18nInstance.t('networkProblems'));
         break;
       case 'failed':
         submitButton.disabled = false;
         fieldElements.link.readOnly = false;
-        renderProcessError(i18nInstance.t('invalidRSS'));
+        statusMsg.textContent = (i18nInstance.t('invalidRSS'));
         break;
       case 'filling':
         submitButton.disabled = false;
@@ -176,25 +166,24 @@ export default ({
         submitButton.disabled = false;
         fieldElements.link.readOnly = false;
         fieldElements.link.value = null;
-        renderSuccessMessage(i18nInstance.t('successRSSLoad'));
+        statusMsg.textContent = (i18nInstance.t('successRSSLoad'));
         break;
       default:
-        throw new Error(`Unknown state: ${processState}`);
+        statusMsg.textContent = (i18nInstance.t('RSSExists'));
     }
   };
 
   return onChange(state, (path, value) => {
     switch (path) {
       case 'form.processState':
-        renderProcessError(null);
-        renderSuccessMessage(null);
+        renderStatusMsg(null);
         processStateHandler(value);
         break;
       case 'form.valid':
         submitButton.disabled = !value;
         break;
       case 'form.error':
-        renderError(value);
+        renderStatusMsg(value);
         break;
       case 'feeds':
         renderFeeds(value);
@@ -209,7 +198,7 @@ export default ({
       case 'lng':
         i18nInstance.changeLanguage(`${value}`).then(() => renderLng(value));
         processStateHandler(state.form.processState);
-        renderError(state.form.error);
+        renderStatusMsg(state.form.error);
         break;
       default:
         break;

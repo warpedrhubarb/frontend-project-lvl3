@@ -25,7 +25,7 @@
 
 <main class="flex-grow-1">
   <section class="container-fluid bg-dark p-5">
-    <div class="position-absolute top-0 end-0" data-role="lng-container">
+    <div class="btn-group position-absolute top-0 end-0" data-role="lng-container">
       <button class="btn btn-link p-2" type="button" data-lng="en" data-role="lng-btn">🇬🇧</button>
       <button class="btn btn-link p-2 me-1" type="button" data-lng="ru" data-role="lng-btn">🇷🇺</button>
     </div>
@@ -46,10 +46,10 @@
             </div>
           </div>
         </form>
-        <p class="mt-2 mb-0 text-muted" data-role="example">Example: https://ru.hexlet.io/lessons.rss</p>
-        <div id="linkError" class="feedback small text-danger" data-role="link-error"></div>
-        <div id="processError" class="feedback small position-absolute text-danger" data-role="process-error"></div>
-        <div id="processSuccess" class="feedback small position-absolute text-success" data-role="process-success"></div>
+        <p class="mt-2 mb-0 text-muted" data-role="example">Example: <a href="https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml">The New York Times</a> / <a href="http://feeds.bbci.co.uk/news/world/rss.xml">BBC</a> / <a href="http://www.aljazeera.com/xml/rss/all.xml">Al Jazeera</a> (right-click to copy the link)</p>
+        <div id="statusMsg" class="feedback small position-absolute" data-role="status-msg"></div>
+<!--        <div id="processError" class="feedback small position-absolute text-danger" data-role="process-error"></div>-->
+<!--        <div id="processSuccess" class="feedback small position-absolute text-success" data-role="process-success"></div>-->
       </div>
     </div>
   </section>
