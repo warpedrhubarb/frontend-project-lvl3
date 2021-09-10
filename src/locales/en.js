@@ -1,9 +1,5 @@
 export default {
   translation: {
-    languages: {
-      en: 'English',
-      ru: 'Русский',
-    },
     elements: {
       title: 'RSS Reader',
       subtitle: 'Start reading RSS today! It\'s nice & easy.',
@@ -23,6 +19,7 @@ export default {
       RSSExists: '🔴 RSS already exists',
       invalidURL: '🔴 Must be a valid URL',
       required: '🔴 URL is required',
+      default: '🔴 Something went wrong, please reload the page',
     },
   },
 };

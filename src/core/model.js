@@ -15,7 +15,7 @@ export default (defaultLanguage) => {
   const modalTitle = document.querySelector('[data-role="modal-title"]');
   const modalLink = document.querySelector('[data-role="modal-link"]');
   const modalDismiss = document.querySelector('[data-role="modal-dismiss"]');
-  const appTitle = document.querySelector('h1');
+  const appTitle = document.querySelector('[data-role="app-title"]');
   const subtitle = document.querySelector('.lead');
   const inputPlaceholder = document.querySelector('label');
   const example = document.querySelector('[data-role="example"]');

@@ -19,9 +19,6 @@ export default ({
     submitButton,
     feedsContainer,
     postsContainer,
-    // previewButtons,
-    // postsHeading,
-    // feedsHeading,
     modalBody,
     modalTitle,
     modalLink,
@@ -84,33 +81,31 @@ export default ({
   };
 
   const processStateHandler = (processState) => {
+    submitButton.disabled = false;
+    fieldElements.link.readOnly = false;
+
     switch (processState) {
       case 'failedNetwork':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
         statusMsg.textContent = (i18nInstance.t('statusMessages.networkProblems'));
         break;
       case 'failed':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
         statusMsg.textContent = (i18nInstance.t('statusMessages.invalidRSS'));
         break;
       case 'filling':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
         break;
       case 'sending':
         submitButton.disabled = true;
         fieldElements.link.readOnly = true;
         break;
       case 'finished':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
-        // fieldElements.link.value = null;
         statusMsg.textContent = (i18nInstance.t('statusMessages.successRSSLoad'));
         break;
-      default:
+      case 'rssExists':
         statusMsg.textContent = (i18nInstance.t('statusMessages.RSSExists'));
+        break;
+      default:
+        statusMsg.textContent = (i18nInstance.t('statusMessages.default'));
+        break;
     }
   };
 
@@ -215,6 +210,7 @@ export default ({
         }
         break;
       default:
+        processStateHandler(null);
         break;
     }
   });

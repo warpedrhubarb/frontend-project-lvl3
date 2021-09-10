@@ -94,7 +94,8 @@ export default ({
     e.preventDefault();
     const feedsArr = watchedState.feeds.map(({ link }) => link);
     if (feedsArr.indexOf(watchedState.form.inputField) !== -1) {
-      watchedState.form.processState = '';
+      watchedState.form.processState = 'rssExists';
+      // form.disabled = true;
       submitButton.disabled = true;
       return;
     }
