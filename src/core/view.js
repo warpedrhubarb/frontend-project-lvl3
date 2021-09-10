@@ -19,9 +19,9 @@ export default ({
     submitButton,
     feedsContainer,
     postsContainer,
-    previewButtons,
-    postsHeading,
-    feedsHeading,
+    // previewButtons,
+    // postsHeading,
+    // feedsHeading,
     modalBody,
     modalTitle,
     modalLink,
@@ -49,6 +49,10 @@ export default ({
     //   lngBtn.classList.add(classNameToAdd);
     // });
 
+    const previewButtons = document.querySelectorAll('[data-role="previewBtn"]');
+    const postsHeading = document.querySelector('[data-role="posts-heading"]');
+    const feedsHeading = document.querySelector('[data-role="feeds-heading"]');
+
     previewButtons.forEach((previewBtn) => {
       previewBtn.textContent = i18nInstance.t('elements.previewBtn');
     });
@@ -64,15 +68,50 @@ export default ({
     modalDismiss.textContent = i18nInstance.t('elements.modalDismiss');
   };
 
-  const renderStatusMsg = (error) => {
+  const renderInputValue = (value) => {
+    fieldElements.link.value = value;
+  };
+
+  const renderStatusMsg = (statusMessage) => {
     const linkElement = fieldElements.link;
     linkElement.classList.remove('is-invalid');
     statusMsg.textContent = '';
-    if (!error) {
+    if (!statusMessage) {
       return;
     }
-    statusMsg.textContent = i18nInstance.t(error.message.key);
+    statusMsg.textContent = i18nInstance.t(statusMessage.message.key);
     linkElement.classList.add('is-invalid');
+  };
+
+  const processStateHandler = (processState) => {
+    switch (processState) {
+      case 'failedNetwork':
+        submitButton.disabled = false;
+        fieldElements.link.readOnly = false;
+        statusMsg.textContent = (i18nInstance.t('statusMessages.networkProblems'));
+        break;
+      case 'failed':
+        submitButton.disabled = false;
+        fieldElements.link.readOnly = false;
+        statusMsg.textContent = (i18nInstance.t('statusMessages.invalidRSS'));
+        break;
+      case 'filling':
+        submitButton.disabled = false;
+        fieldElements.link.readOnly = false;
+        break;
+      case 'sending':
+        submitButton.disabled = true;
+        fieldElements.link.readOnly = true;
+        break;
+      case 'finished':
+        submitButton.disabled = false;
+        fieldElements.link.readOnly = false;
+        // fieldElements.link.value = null;
+        statusMsg.textContent = (i18nInstance.t('statusMessages.successRSSLoad'));
+        break;
+      default:
+        statusMsg.textContent = (i18nInstance.t('statusMessages.RSSExists'));
+    }
   };
 
   const renderFeeds = (feeds) => {
@@ -142,37 +181,6 @@ export default ({
     modalLink.setAttribute('href', link);
   };
 
-  const processStateHandler = (processState) => {
-    switch (processState) {
-      case 'failedNetwork':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
-        statusMsg.textContent = (i18nInstance.t('networkProblems'));
-        break;
-      case 'failed':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
-        statusMsg.textContent = (i18nInstance.t('invalidRSS'));
-        break;
-      case 'filling':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
-        break;
-      case 'sending':
-        submitButton.disabled = true;
-        fieldElements.link.readOnly = true;
-        break;
-      case 'finished':
-        submitButton.disabled = false;
-        fieldElements.link.readOnly = false;
-        fieldElements.link.value = null;
-        statusMsg.textContent = (i18nInstance.t('successRSSLoad'));
-        break;
-      default:
-        statusMsg.textContent = (i18nInstance.t('RSSExists'));
-    }
-  };
-
   return onChange(state, (path, value) => {
     switch (path) {
       case 'form.processState':
@@ -182,8 +190,11 @@ export default ({
       case 'form.valid':
         submitButton.disabled = !value;
         break;
-      case 'form.error':
+      case 'form.statusMsg':
         renderStatusMsg(value);
+        break;
+      case 'form.inputField':
+        renderInputValue(value);
         break;
       case 'feeds':
         renderFeeds(value);
@@ -196,9 +207,12 @@ export default ({
         renderModal(value);
         break;
       case 'lng':
-        i18nInstance.changeLanguage(`${value}`).then(() => renderLng(value));
-        processStateHandler(state.form.processState);
-        renderStatusMsg(state.form.error);
+        i18nInstance.changeLanguage(`${value}`).then(() => renderLng());
+        if (state.form.statusMsg) {
+          renderStatusMsg(state.form.statusMsg);
+        } else if (state.form.processState) {
+          processStateHandler(state.form.processState);
+        }
         break;
       default:
         break;

@@ -19,12 +19,13 @@ export default (defaultLanguage) => {
   const subtitle = document.querySelector('.lead');
   const inputPlaceholder = document.querySelector('label');
   const example = document.querySelector('[data-role="example"]');
+  const exampleLinks = document.querySelectorAll('[data-role="example-link"]');
 
   return {
     state: {
       form: {
         processState: 'filling',
-        error: null,
+        statusMsg: null,
         valid: true,
         inputField: null,
       },
@@ -53,6 +54,7 @@ export default (defaultLanguage) => {
       subtitle,
       inputPlaceholder,
       example,
+      exampleLinks,
     },
   };
 };

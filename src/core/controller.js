@@ -1,9 +1,6 @@
 import * as yup from 'yup';
 import axios from 'axios';
-import {
-  uniqueId,
-  differenceWith,
-} from 'lodash';
+import { differenceWith, uniqueId } from 'lodash';
 import parseRSS from '../utils/rssParser';
 import yupLocale from '../locales/yup.js';
 
@@ -30,7 +27,7 @@ const updateValidationState = (watchedState, baseLinkSchema) => {
 
   const error = validate(watchedState.form.inputField, linkSchema);
   watchedState.form.valid = !error;
-  watchedState.form.error = watchedState.form.valid ? null : error;
+  watchedState.form.statusMsg = watchedState.form.valid ? null : error;
 };
 
 const processRSSContent = (data, watchedState) => {
@@ -78,6 +75,7 @@ export default ({
     form,
     submitButton,
     postsContainer,
+    exampleLinks,
   },
 }, watchedState) => {
   yup.setLocale(yupLocale);
@@ -111,8 +109,18 @@ export default ({
       }
       watchedState.form.processState = 'finished';
       updateFeeds(watchedState);
+      watchedState.form.inputField = null;
     }).catch(() => {
       watchedState.form.processState = 'failedNetwork';
+    });
+  });
+
+  exampleLinks.forEach((exampleLink) => {
+    exampleLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      watchedState.form.inputField = exampleLink.href;
+      updateValidationState(watchedState, baseLinkSchema);
+      fieldElements.link.focus();
     });
   });
 
