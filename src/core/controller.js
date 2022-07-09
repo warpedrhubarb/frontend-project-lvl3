@@ -4,7 +4,7 @@ import { differenceWith, uniqueId } from 'lodash';
 import parseRSS from '../utils/rssParser';
 import yupLocale from '../locales/yup.js';
 
-const callAPI = (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
+const callAPI = (url) => axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}&disableCache=true`);
 
 const handleSwitchLanguage = (watchedState) => (e) => {
   const { lng } = e.target.dataset;

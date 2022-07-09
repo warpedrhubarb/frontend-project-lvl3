@@ -1,0 +1,7 @@
+.lng-btn {
+  transition: transform .2s; /* Animation */
+}
+
+.lng-btn:hover {
+  transform: scale(1.2);
+}

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="src/index.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>RSS Reader</title>
@@ -26,8 +27,8 @@
 <main class="flex-grow-1">
   <section class="container-fluid bg-dark p-5">
     <div class="btn-group position-absolute top-0 end-0">
-      <a class="p-2 h1" role="button" data-lng="en" data-role="lng-btn">🇬🇧</a>
-      <a class="p-2 me-1 h1" role="button" data-lng="ru" data-role="lng-btn">🇷🇺</a>
+      <a class="lng-btn p-2 h1 text-decoration-none" role="button" data-lng="en" data-role="lng-btn">🇬🇧</a>
+      <a class="lng-btn p-2 me-2 h1 text-decoration-none" role="button" data-lng="fi" data-role="lng-btn">🇫🇮</a>
     </div>
     <div class="row">
       <div class="col-md-10 col-lg-8 mx-auto text-white">
@@ -46,7 +47,7 @@
             </div>
           </div>
         </form>
-        <p class="mt-2 mb-2 text-muted"><a data-role="example">Example: </a><a href="https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml" data-role="example-link">The New York Times</a> / <a href="http://feeds.bbci.co.uk/news/world/rss.xml" data-role="example-link">BBC</a> / <a href="http://www.aljazeera.com/xml/rss/all.xml" data-role="example-link">Al Jazeera</a></p>
+        <p class="mt-2 mb-2 text-muted"><a data-role="example">Example: </a><a href="https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss" data-role="example-link">Yle Uutiset</a> / <a href="https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml" data-role="example-link">NYT</a> / <a href="http://feeds.bbci.co.uk/news/world/rss.xml" data-role="example-link">BBC News</a> / <a href="http://www.aljazeera.com/xml/rss/all.xml" data-role="example-link">Al Jazeera</a></p>
         <div id="statusMsg" class="feedback small position-absolute" data-role="status-msg"></div>
       </div>
     </div>

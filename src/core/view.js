@@ -119,7 +119,7 @@ export default ({
     feeds.forEach(({ title, description }) => {
       const listItem = createElement('li.list-group-item.border-0.border-end-0');
       const feedTitle = createElement('h3.h6.m-0', title);
-      const feedDescription = createElement('p.m-0.small.text-black-50', description);
+      const feedDescription = createElement('p.m-0.small.lh-sm.text-black-50', description);
       listItem.appendChild(feedTitle);
       listItem.appendChild(feedDescription);
       feedsInfoList.appendChild(listItem);
@@ -142,9 +142,9 @@ export default ({
     const postsList = createElement('ul.list-group.border-0.rounded-0');
 
     posts.forEach(({ id, title, link }) => {
-      const listItem = createElement('li.list-group-item.d-flex.justify-content-between.align-items-start.border-0.border-end-0');
+      const listItem = createElement('li.list-group-item.d-flex.justify-content-between.align-items-start.border-0');
       const postTitleFont = readPosts[id] ? '.fw-normal' : '.fw-bold';
-      const postTitle = createElement(`a${postTitleFont}`, title, {
+      const postTitle = createElement(`a${postTitleFont}.w-75`, title, {
         href: link,
         target: '_blank',
         rel: 'noopener noreferrer',
@@ -152,7 +152,7 @@ export default ({
         'data-id': id,
       });
 
-      const previewBtn = createElement('button.btn.btn-outline-primary.btn-sm', i18nInstance.t('elements.previewBtn'), {
+      const previewBtn = createElement('button.btn.btn-outline-primary.btn-sm.mt-auto.mb-auto', i18nInstance.t('elements.previewBtn'), {
         'data-bs-toggle': 'modal',
         'data-bs-target': '#modal',
         'data-id': id,
