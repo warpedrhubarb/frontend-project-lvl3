@@ -1,5 +1,4 @@
 import 'bootstrap/js/dist/modal';
-
 import i18next from 'i18next';
 import resources from './locales/index.js';
 
