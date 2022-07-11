@@ -48,7 +48,7 @@ const processRSSContent = (data, watchedState) => {
 };
 
 const updateFeeds = (watchedState) => {
-  const timeout = 5000;
+  const timeout = 300000;
   const promises = watchedState.feeds.map(({ link }) => callAPI(link)
     .then((response) => {
       const newPosts = parseRSS(response.data.contents).items;
