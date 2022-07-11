@@ -2,7 +2,7 @@
 
 [![Linter](https://github.com/warpedrhubarb/rss-reader/actions/workflows/linter.yml/badge.svg)](https://github.com/warpedrhubarb/rss-reader/actions/workflows/linter.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/69b1fd8ec4e7cbddc622/maintainability)](https://codeclimate.com/github/warpedrhubarb/rss-reader/maintainability)
 
-![RSS-Reader-Screenshot](https://user-images.githubusercontent.com/7108262/178247617-f758f1c2-1477-4fc4-bb90-08363c39748d.png)
+![RSS-Reader-Screenshot](https://user-images.githubusercontent.com/7108262/178333847-a3ad4ebc-2a7a-4fda-b351-ccba9308b1dc.png)
 
 ## Description
 
@@ -28,4 +28,4 @@ Clone the project and run
 
 ## Demo
 
-<a href="https://rss-reader-rho.vercel.app">https://rss-reader-rho.vercel.app<a>
+<a href="https://nice-rss-reader.vercel.app">https://nice-rss-reader.vercel.app<a>
